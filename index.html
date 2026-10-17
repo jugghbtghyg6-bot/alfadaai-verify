@@ -1,51 +1,70 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
-  <head>
+<head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>الفضائي</title>
-    <meta name="description" content="افتح الفيديو داخل تطبيق الفضائي" />
+    <title>الفضائي تكنولوجي - فتح الفيديو داخل التطبيق</title>
     <style>
-      :root { color-scheme: dark; font-family: Arial, sans-serif; }
-      body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: #061f20; color: #fff; }
-      main { width: min(92vw, 520px); text-align: center; padding: 32px; border-radius: 24px; background: #102f30; box-sizing: border-box; }
-      h1 { margin: 0 0 8px; }
-      p { color: #b7c8c8; line-height: 1.7; }
-      .company { margin: 0 0 4px; color: #f5bd4f; font-size: 15px; font-weight: 700; letter-spacing: 0.4px; }
-      .developer { margin: 0 0 12px; color: #8fb5b5; font-size: 12px; }
-      a { display: inline-block; margin-top: 18px; padding: 13px 22px; border-radius: 12px; background: #f5bd4f; color: #142323; text-decoration: none; font-weight: 700; }
-      code { color: #f5bd4f; word-break: break-all; }
+        :root { color-scheme: dark; font-family: Arial, sans-serif; }
+        body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: #051f20; color: #fff; }
+        main { width: min(92vw, 520px); text-align: center; padding: 32px; border-radius: 24px; background: #102f30; box-sizing: border-box; }
+        h1 { margin: 0 0 8px; font-size: 22px; color: #f5bd4f; }
+        p { color: #b7c8c0; line-height: 1.7; }
+        .company { margin: 0 0 4px; color: #f5bd4f; font-size: 15px; font-weight: 700; letter-spacing: 0.4px; }
+        .developer { margin: 0 0 12px; font-size: 12px; color: #8fb5b5; }
+        .btn { display: block; margin-top: 18px; padding: 14px 22px; border-radius: 12px; background: #f5bd4f; color: #142323; text-decoration: none; font-weight: 700; font-size: 16px; border: none; cursor: pointer; width: 100%; box-sizing: border-box; }
+        .btn-secondary { background: #1a4a4b; color: #fff; margin-top: 10px; font-size: 14px; }
+        code { color: #f5bd4f; word-break: break-all; background: rgba(0,0,0,0.2); padding: 2px 6px; border-radius: 4px; }
     </style>
-  </head>
-  <body>
+</head>
+<body>
     <main>
-      <p class="company">شركة الفضائي تكنولوجي</p>
-      <h1>عبد الفتاح سلامة</h1>
-      <p class="developer">تم التصميم والتطوير بواسطة محمد طلعت</p>
-      <p id="status">جارٍ تجهيز الفيديو…</p>
-      <a id="open" href="#">فتح الفيديو داخل التطبيق</a>
+        <p class="company">شركة الفضائي تكنولوجي</p>
+        <h1>عبد الفتاح سلامة</h1>
+        <p class="developer">تم التصميم والتطوير بواسطة محمد طلعت</p>
+        <p id="status">جاري فتح الفيديو داخل التطبيق...</p>
+        
+        <!-- زرار فتح التطبيق يدوياً لو التحويل التلقائي أخذ وقت -->
+        <a id="open" class="btn" href="#">فتح الفيديو يدوياً داخل التطبيق</a>
+        
+        <!-- زرار تحميل التطبيق يظهر لو التطبيق غير مثبت -->
+        <a id="downloadBtn" class="btn btn-secondary" href="رابط_تحميل_الـ_APK_هنا" style="display: none;">التطبيق غير مثبت؟ اضغط هنا لتحميله وتثبيته</a>
     </main>
+
     <script>
-      (function () {
-        var parts = location.pathname.split('/').filter(Boolean);
-        var videoId = parts[0] === 'video' ? decodeURIComponent(parts[1] || '') : '';
-        var valid = /^[A-Za-z0-9_-]{6,64}$/.test(videoId);
-        var status = document.getElementById('status');
-        var open = document.getElementById('open');
-        if (!valid) {
-          status.textContent = 'الرابط غير مكتمل. افتح رابط فيديو صالحًا من تطبيق الفضائي.';
-          open.style.display = 'none';
-          return;
-        }
-        var appUrl = 'alfadaai://video/' + encodeURIComponent(videoId);
-        status.innerHTML = 'الفيديو: <code>' + videoId + '</code>';
-        open.href = appUrl;
-        open.addEventListener('click', function () {
-          window.setTimeout(function () {
-            status.textContent = 'إذا لم يفتح التطبيق، ثبّت أحدث نسخة Production ثم أعد المحاولة.';
-          }, 1400);
-        });
-      }());
+        (function () {
+            var parts = location.pathname.split('/').filter(Boolean);
+            var videoId = parts[0] === 'video' ? decodeURIComponent(parts[1] || '') : '';
+            var valid = /^[A-Za-z0-9_-]{6,64}$/.test(videoId);
+            var status = document.getElementById('status');
+            var openBtn = document.getElementById('open');
+            var downloadBtn = document.getElementById('downloadBtn');
+
+            if (!valid) {
+                status.textContent = 'الرابط غير مكتمل. افتح رابط فيديو صالح من تطبيق الفضائي.';
+                openBtn.style.display = 'none';
+                return;
+            }
+
+            var appUrl = 'alfadaai://video/' + encodeURIComponent(videoId);
+            status.innerHTML = 'جاري توجيهك لفيديو رقم: <code>' + videoId + '</code>';
+            openBtn.href = appUrl;
+
+            // محاولة فتح التطبيق فوراً تلقائياً بمجرد تحميل الصفحة
+            window.location.href = appUrl;
+
+            // عداد زمني (Fallback): لو المستخدم بعد ثانيتين لسه في الصفحة، معناه إن التطبيق مش مثبت
+            var timeoutTimer = setTimeout(function () {
+                status.textContent = ' يبدو أن التطبيق غير مثبت على جهازك.';
+                downloadBtn.style.display = 'block'; // إظهار زرار التحميل بوضوح
+            }, 2000);
+
+            // إلغاء التنبيه لو الصفحة خرجت (يعني التطبيق اتفتح فعلاً)
+            window.addEventListener('pagehide', function() {
+                clearTimeout(timeoutTimer);
+            });
+        })();
     </script>
-  </body>
+</body>
 </html>
+
