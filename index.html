@@ -21,14 +21,11 @@
     <main>
         <p class="company">شركة الفضائي تكنولوجي</p>
         <h1>عبد الفتاح سلامة</h1>
-        <p class="developer">تم التصميم والتطوير بواسطة محمد طلعت</p>
-        <p id="status">جاري فتح الفيديو داخل التطبيق...</p>
+        <p class="developer"> تم التصميم والتطوير بواسطة شركة الفضائي تكنولوجي </p>
+        <p id="status">جاري توجيهك إلى الفيديو داخل التطبيق...</p>
         
-        <!-- زرار فتح التطبيق يدوياً لو التحويل التلقائي أخذ وقت -->
-        <a id="open" class="btn" href="#">فتح الفيديو يدوياً داخل التطبيق</a>
-        
-        <!-- زرار تحميل التطبيق يظهر لو التطبيق غير مثبت -->
-        <a id="downloadBtn" class="btn btn-secondary" href="رابط_تحميل_الـ_APK_هنا" style="display: none;">التطبيق غير مثبت؟ اضغط هنا لتحميله وتثبيته</a>
+        <a id="open" class="btn" href="#">فتح الفيديو داخل التطبيق</a>
+        <a id="downloadBtn" class="btn btn-secondary" href="https://alfada-xqu9wqqj.manus.space/apps/PRJ-AFS-01/">التطبيق غير مثبت؟ اضغط هنا لتحميله من متجر الفضائي</a>
     </main>
 
     <script>
@@ -43,23 +40,24 @@
             if (!valid) {
                 status.textContent = 'الرابط غير مكتمل. افتح رابط فيديو صالح من تطبيق الفضائي.';
                 openBtn.style.display = 'none';
+                downloadBtn.style.display = 'none';
                 return;
             }
 
             var appUrl = 'alfadaai://video/' + encodeURIComponent(videoId);
-            status.innerHTML = 'جاري توجيهك لفيديو رقم: <code>' + videoId + '</code>';
+            status.innerHTML = 'الفيديو رقم: <code>' + videoId + '</code>';
             openBtn.href = appUrl;
 
-            // محاولة فتح التطبيق فوراً تلقائياً بمجرد تحميل الصفحة
-            window.location.href = appUrl;
+            // محاولة الفتح الفوري للتطبيق
+            try {
+                window.location.replace(appUrl);
+            } catch (e) {}
 
-            // عداد زمني (Fallback): لو المستخدم بعد ثانيتين لسه في الصفحة، معناه إن التطبيق مش مثبت
+            // لو التطبيق مش مثبت والمستخدم فضل قاعد، بعد ثانيتين نقدر نوجهه تلقائي للمتجر أو نسيب الزرار واضح
             var timeoutTimer = setTimeout(function () {
-                status.textContent = ' يبدو أن التطبيق غير مثبت على جهازك.';
-                downloadBtn.style.display = 'block'; // إظهار زرار التحميل بوضوح
+                status.textContent = 'يبدو أن التطبيق غير مثبت على جهازك.';
             }, 2000);
 
-            // إلغاء التنبيه لو الصفحة خرجت (يعني التطبيق اتفتح فعلاً)
             window.addEventListener('pagehide', function() {
                 clearTimeout(timeoutTimer);
             });
@@ -67,4 +65,3 @@
     </script>
 </body>
 </html>
-
