@@ -1,1 +1,15 @@
-[{"relation":["delegate_permission/common.handle_all_urls"],"target":{"namespace":"android_app","package_name":"com.app.ahyaaabdelrahmanelbaz","sha256_cert_fingerprints":["3E:0D:C8:D2:E6:52:D1:11:75:2A:F0:55:08:A1:CA:9B:B3:99:9B:EF"]}}]
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.alfadaai.app",
+      "sha256_cert_fingerprints": [
+        "71:4A:DC:E6:C0:0B:32:66:C8:E4:CD:93:A6:89:74:E3:7E:3F:E0:6E:25:5F:F3:18:85:22:F3:59:3F:A6:EB:AE"
+      ]
+    }
+  }
+]
+
